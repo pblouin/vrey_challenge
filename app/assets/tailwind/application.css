@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* VREY design system, extracted from vrey.io */
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-brand: #f25244;       /* coral red, main brand color */
+  --color-brand-dark: #d9493d;  /* hover */
+  --color-brand-light: #fdf0ef; /* tinted backgrounds */
+  --color-accent: #f08a6a;      /* orange, end of the brand gradient */
+  --color-ink: #272f40;         /* text */
+  --color-muted: #8a7a78;       /* secondary text */
+  --color-line: #e2e8f0;        /* borders */
+
+  --radius-card: 1rem;
+  --shadow-card: 0 8px 25px -5px rgb(242 82 68 / 0.1);
+  --shadow-hover: 0 15px 40px -10px rgb(242 82 68 / 0.3);
+}
+
+@layer base {
+  body { @apply bg-white font-sans text-ink antialiased; }
+  h1 { @apply text-3xl font-bold tracking-tight; }
+  h2 { @apply text-xl font-semibold; }
+  a { @apply text-brand hover:text-brand-dark; }
+}
+
+@layer components {
+  .card { @apply rounded-card border border-line bg-white p-6 shadow-card; }
+  .card-link { @apply block rounded-card border border-line bg-white p-6 text-ink shadow-card transition hover:-translate-y-0.5 hover:text-ink hover:shadow-hover; }
+
+  .btn { @apply inline-block rounded-lg bg-brand px-4 py-2 font-medium text-white hover:bg-brand-dark hover:text-white; }
+
+  .stat-label { @apply text-sm text-muted; }
+  .stat-value { @apply text-2xl font-semibold; }
+
+  .table { @apply w-full text-left; }
+  .table th { @apply border-b border-line py-3 text-sm font-medium text-muted; }
+  .table td { @apply border-b border-line py-3; }
+  .table tfoot td { @apply border-0 font-semibold; }
+
+  .gradient-brand { @apply bg-linear-to-br from-brand to-accent text-white; }
+}
