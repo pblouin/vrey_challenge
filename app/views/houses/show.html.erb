@@ -1,0 +1,9 @@
+<h1><%= @house.name %></h1>
+
+<ul>
+  <% @house.consumers.each do |consumer| %>
+    <li><%= consumer.name %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Back", root_path %>
