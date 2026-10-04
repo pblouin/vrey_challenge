@@ -2,8 +2,8 @@ class ImportsController < ApplicationController
   rescue_from Date::Error, with: :invalid_date
 
   def new
-    @start_date = params[:start_date]&.to_date || Date.today.beginning_of_month
-    @end_date = params[:end_date]&.to_date || Date.today
+    @start_date = params[:start_date]&.to_date || Date.current.beginning_of_month
+    @end_date = params[:end_date]&.to_date || Date.current
     @start_date_calendar = params[:start_date_calendar]&.to_date
     @end_date_calendar = params[:end_date_calendar]&.to_date
   end

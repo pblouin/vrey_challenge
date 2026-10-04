@@ -34,7 +34,7 @@ class HousesController < ApplicationController
     elsif @months_with_data.any?
       @months_with_data.last
     else
-      Date.today.beginning_of_month
+      Date.current.beginning_of_month
     end
   end
 

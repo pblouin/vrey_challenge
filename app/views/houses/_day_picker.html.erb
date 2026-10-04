@@ -23,7 +23,7 @@
       <% end %>
 
       <% (shown_month..shown_month.end_of_month).each do |date| %>
-        <% if date > Date.today %>
+        <% if date > Date.current %>
           <span class="rounded-full py-1 text-line"><%= date.day %></span>
         <% elsif date == day %>
           <%= link_to date.day, house_page_path(@house, day: date), class: "rounded-full bg-brand py-1 text-white hover:text-white", data: { turbo_action: "replace" } %>

@@ -24,7 +24,7 @@
       <% end %>
 
       <% (shown_month..shown_month.end_of_month).each do |day| %>
-        <% if day > Date.today %>
+        <% if day > Date.current %>
           <span class="rounded-full py-1 text-line"><%= day.day %></span>
         <% elsif day == date %>
           <%= link_to day.day, new_import_path(dates.merge(name => day)), class: "rounded-full bg-brand py-1 text-white hover:text-white", data: { turbo_action: "replace" } %>
