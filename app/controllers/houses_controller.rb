@@ -19,7 +19,8 @@ class HousesController < ApplicationController
     @calendar_month = params[:calendar]&.to_date
     @calendar_year = params[:calendar_year]&.to_i
 
-    @days = @house_or_flat.days_with_data(@period)
+    @dates = @house_or_flat.dates_with_data(@period)
+    @days = @dates.count
     @has_data = @days > 0
   end
 

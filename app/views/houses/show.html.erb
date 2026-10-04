@@ -40,7 +40,14 @@
       <% if @day %>
         <p class="font-medium text-brand"><%= l @day, format: "%A %-d %B %Y" %></p>
       <% elsif @has_data %>
-        <p class="font-medium text-brand"><%= l @month, format: "%B %Y" %> <span class="font-normal text-muted">· <%= pluralize @days, "day" %></span></p>
+        <p class="font-medium text-brand">
+          <% if @dates.first == @dates.last %>
+            <%= l @dates.first, format: "%-d %B %Y" %>
+          <% else %>
+            <%= @dates.first.day %> – <%= l @dates.last, format: "%-d %B %Y" %>
+          <% end %>
+          <span class="font-normal text-muted">· <%= pluralize @days, "day" %></span>
+        </p>
       <% end %>
     </div>
   </div>

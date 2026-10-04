@@ -7,10 +7,11 @@ module Consumption
     market_measurements.between(period).sum(:value_kwh)
   end
 
-  def days_with_data(period)
-    start_dates = metering_measurements.between(period).pluck(:start_date)
+  # Days with at least one measurement, in order
+  def dates_with_data(period)
+    start_dates = metering_measurements.between(period).order(:start_date).pluck(:start_date)
     dates = start_dates.map { |start_date| start_date.to_date }
-    dates.uniq.count
+    dates.uniq
   end
 
   def solar_kwh(period)
