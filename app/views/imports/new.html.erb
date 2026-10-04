@@ -1,0 +1,30 @@
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+<h1>Import data</h1>
+<p class="stat-label mt-2">
+  Fetches measurements for houses and flats from the API for the selected period.
+  Existing values are updated, not duplicated.
+</p>
+
+<div class="card mt-6 grid max-w-lg grid-cols-2 gap-3">
+  <div class="grid gap-1 text-sm font-medium">
+    Start date
+    <%= render "date_picker", name: :start_date, date: @start_date, calendar_month: @start_date_calendar %>
+  </div>
+  <div class="grid gap-1 text-sm font-medium">
+    End date
+    <%= render "date_picker", name: :end_date, date: @end_date, calendar_month: @end_date_calendar %>
+  </div>
+</div>
+
+<%= form_with url: import_path, class: "group mt-4 grid max-w-lg" do |form| %>
+  <%= form.hidden_field :start_date, value: @start_date %>
+  <%= form.hidden_field :end_date, value: @end_date %>
+
+  <button type="submit" class="btn inline-flex cursor-pointer items-center justify-center gap-2 disabled:cursor-wait disabled:opacity-80">
+    <%= lucide_icon "download", class: "size-4 group-aria-busy:hidden" %>
+    <%= lucide_icon "loader-circle", class: "hidden size-4 animate-spin group-aria-busy:block" %>
+    <span class="group-aria-busy:hidden">Import</span>
+    <span class="hidden group-aria-busy:inline">Importing… this can take several minutes</span>
+  </button>
+<% end %>
