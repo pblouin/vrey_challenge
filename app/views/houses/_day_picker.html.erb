@@ -1,0 +1,36 @@
+<% shown_month = (calendar_month || day).beginning_of_month %>
+
+<details class="relative" <%= "open" if calendar_month %>>
+  <summary class="pill cursor-pointer list-none gap-2 font-medium">
+    <%= lucide_icon "calendar", class: "size-4 text-brand" %>
+    <%= l day, format: "%A %-d %B %Y" %>
+  </summary>
+
+  <div class="card absolute z-10 mt-2 w-72 p-4">
+    <div class="mb-3 flex items-center justify-between">
+      <%= link_to lucide_icon("chevron-left", class: "size-4"), house_page_path(@house, day: day, calendar: shown_month.prev_month), data: { turbo_action: "replace" } %>
+      <span class="font-medium"><%= l shown_month, format: "%B %Y" %></span>
+      <%= link_to lucide_icon("chevron-right", class: "size-4"), house_page_path(@house, day: day, calendar: shown_month.next_month), data: { turbo_action: "replace" } %>
+    </div>
+
+    <div class="grid grid-cols-7 gap-1 text-center text-sm">
+      <% %w[Mo Tu We Th Fr Sa Su].each do |weekday| %>
+        <span class="text-xs text-muted"><%= weekday %></span>
+      <% end %>
+
+      <% (shown_month.cwday - 1).times do %>
+        <span></span>
+      <% end %>
+
+      <% (shown_month..shown_month.end_of_month).each do |date| %>
+        <% if date > Date.today %>
+          <span class="rounded-full py-1 text-line"><%= date.day %></span>
+        <% elsif date == day %>
+          <%= link_to date.day, house_page_path(@house, day: date), class: "rounded-full bg-brand py-1 text-white hover:text-white", data: { turbo_action: "replace" } %>
+        <% else %>
+          <%= link_to date.day, house_page_path(@house, day: date), class: "rounded-full py-1 text-ink hover:bg-brand-light", data: { turbo_action: "replace" } %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</details>

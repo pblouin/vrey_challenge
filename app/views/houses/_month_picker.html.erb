@@ -1,0 +1,29 @@
+<% shown_year = calendar_year || month.year %>
+
+<details class="relative" <%= "open" if calendar_year %>>
+  <summary class="pill cursor-pointer list-none gap-2 font-medium">
+    <%= lucide_icon "calendar", class: "size-4 text-brand" %>
+    <%= l month, format: "%B %Y" %>
+  </summary>
+
+  <div class="card absolute z-10 mt-2 w-72 p-4">
+    <div class="mb-3 flex items-center justify-between">
+      <%= link_to lucide_icon("chevron-left", class: "size-4"), house_page_path(@house, month: month, calendar_year: shown_year - 1), data: { turbo_action: "replace" } %>
+      <span class="font-medium"><%= shown_year %></span>
+      <%= link_to lucide_icon("chevron-right", class: "size-4"), house_page_path(@house, month: month, calendar_year: shown_year + 1), data: { turbo_action: "replace" } %>
+    </div>
+
+    <div class="grid grid-cols-3 gap-1 text-center text-sm">
+      <% (1..12).each do |month_number| %>
+        <% date = Date.new(shown_year, month_number, 1) %>
+        <% if !months_with_data.include?(date) %>
+          <span class="rounded-full py-1.5 text-line"><%= l date, format: "%b" %></span>
+        <% elsif date == month %>
+          <%= link_to l(date, format: "%b"), house_page_path(@house, month: date), class: "rounded-full bg-brand py-1.5 text-white hover:text-white", data: { turbo_action: "replace" } %>
+        <% else %>
+          <%= link_to l(date, format: "%b"), house_page_path(@house, month: date), class: "rounded-full py-1.5 text-ink hover:bg-brand-light", data: { turbo_action: "replace" } %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</details>

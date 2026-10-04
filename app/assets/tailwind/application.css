@@ -21,18 +21,18 @@
 @layer base {
   body { @apply bg-white font-sans text-ink antialiased; }
   h1 { @apply text-3xl font-bold tracking-tight; }
-  h2 { @apply text-xl font-semibold; }
+  h2 { @apply text-lg font-semibold sm:text-xl; }
   a { @apply text-brand hover:text-brand-dark; }
 }
 
 @layer components {
-  .card { @apply rounded-card border border-line bg-white p-6 shadow-card; }
-  .card-link { @apply block rounded-card border border-line bg-white p-6 text-ink shadow-card transition hover:-translate-y-0.5 hover:text-ink hover:shadow-hover; }
+  .card { @apply rounded-card border border-line bg-white p-4 shadow-card sm:p-6; }
+  .card-link { @apply block rounded-card border border-line bg-white p-4 text-ink shadow-card transition hover:-translate-y-0.5 hover:text-ink hover:shadow-hover sm:p-6; }
 
   .icon-badge { @apply rounded-full bg-brand-light p-3 text-brand; }
   .icon-badge-primary { @apply rounded-full bg-brand p-3 text-white; }
 
-  .pill { @apply inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-brand hover:text-brand; }
+  .pill { @apply inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 sm:px-4 text-sm font-medium text-ink transition-colors duration-200 hover:border-brand hover:text-brand; }
   .pill-active { @apply border-brand bg-brand text-white hover:text-white; }
   .pill-active-secondary { @apply border-brand bg-brand-light text-brand; }
 

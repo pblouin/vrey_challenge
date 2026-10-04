@@ -1,0 +1,39 @@
+<% solar_kwh = house_or_flat.solar_kwh(period) %>
+<% solar_share = house_or_flat.solar_share(period) %>
+<% period_name = daily ? "day" : "month" %>
+
+<div class="grid gap-4 md:grid-cols-2">
+  <div class="card gradient-brand flex items-center gap-4">
+    <span class="rounded-full bg-white/20 p-3"><%= lucide_icon "sun", class: "size-6" %></span>
+    <div>
+      <p class="text-sm opacity-90">Solar consumption for the <%= period_name %></p>
+      <p class="stat-value"><%= number_with_delimiter solar_kwh.round %> kWh</p>
+    </div>
+  </div>
+
+  <div class="card gradient-grid flex items-center gap-4">
+    <span class="rounded-full bg-white/20 p-3"><%= lucide_icon "plug-zap", class: "size-6" %></span>
+    <div>
+      <p class="text-sm opacity-90">Grid consumption for the <%= period_name %></p>
+      <p class="stat-value"><%= number_with_delimiter house_or_flat.grid_kwh(period).round %> kWh</p>
+    </div>
+  </div>
+
+  <% unless daily %>
+    <div class="card flex items-center gap-4">
+      <span class="icon-badge"><%= lucide_icon "zap", class: "size-6" %></span>
+      <div>
+        <p class="stat-label">Solar per day</p>
+        <p class="stat-value"><%= number_with_precision solar_kwh / days, precision: 1 %> kWh</p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="card <%= "md:col-span-2" if daily %>">
+    <p class="stat-label">Solar share</p>
+    <p class="stat-value"><%= solar_share.round %>%</p>
+    <div class="mt-2 flex">
+      <%= render "share_bar", share: solar_share %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<% if target %>
+  <%= link_to lucide_icon("chevron-#{direction}", class: "size-4"), target, class: "pill px-2", data: { turbo_action: "replace" } %>
+<% else %>
+  <span class="pill px-2 text-line"><%= lucide_icon "chevron-#{direction}", class: "size-4" %></span>
+<% end %>

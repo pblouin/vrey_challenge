@@ -1,7 +1,14 @@
-<h1>Houses</h1>
+<h1 class="mb-6">Houses</h1>
 
-<ul>
+<div class="grid gap-4 sm:grid-cols-2">
   <% @houses.each do |house| %>
-    <li><%= link_to house.name, house %></li>
+    <%= link_to house, class: "card-link flex items-center gap-4" do %>
+      <span class="icon-badge"><%= lucide_icon "building-2", class: "size-5" %></span>
+      <div class="flex-1">
+        <h2><%= house.name %></h2>
+        <p class="stat-label"><%= pluralize house.consumers.size, "flat" %></p>
+      </div>
+      <%= lucide_icon "chevron-right", class: "size-5 text-muted" %>
+    <% end %>
   <% end %>
-</ul>
+</div>

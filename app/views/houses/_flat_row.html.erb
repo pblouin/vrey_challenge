@@ -1,0 +1,16 @@
+<% solar_kwh = consumer.solar_kwh(period) %>
+<% solar_share = consumer.solar_share(period) %>
+
+<tr>
+  <td><%= name %></td>
+  <td class="text-right"><%= number_with_precision solar_kwh, precision: 1 %></td>
+  <td class="text-right"><%= number_with_precision consumer.grid_kwh(period), precision: 1 %></td>
+  <td class="text-right"><%= number_with_precision solar_kwh / days, precision: 1 %></td>
+  <td class="text-right"><%= percentage(solar_kwh, house.solar_kwh(period)).round %>%</td>
+  <td>
+    <div class="flex items-center gap-2">
+      <%= render "share_bar", share: solar_share %>
+      <span class="w-10 text-right text-sm"><%= solar_share.round %>%</span>
+    </div>
+  </td>
+</tr>

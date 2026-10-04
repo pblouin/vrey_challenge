@@ -1,9 +1,121 @@
-<h1><%= @house.name %></h1>
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
 
-<ul>
-  <% @house.consumers.each do |consumer| %>
-    <li><%= consumer.name %></li>
+<%= link_to root_path, class: "inline-flex items-center gap-1 text-sm" do %>
+  <%= lucide_icon "arrow-left", class: "size-4" %> All houses
+<% end %>
+
+<h1 class="mt-2"><%= @house.name %></h1>
+
+<div class="mt-4 flex flex-wrap items-center gap-4">
+  <nav class="inline-flex gap-1 rounded-full bg-brand-light p-1">
+    <%= link_to "Monthly", house_page_path(@house, day: nil, month: @month),
+          class: @day ? "toggle" : "toggle toggle-active", data: { turbo_action: "replace" } %>
+    <%= link_to "Daily", house_page_path(@house, month: nil, day: @month),
+          class: @day ? "toggle toggle-active" : "toggle", data: { turbo_action: "replace" } %>
+  </nav>
+
+  <div class="flex items-center gap-2">
+    <% if @day %>
+      <%= render "arrow", direction: "left", target: house_page_path(@house, day: @day.yesterday) %>
+      <%= render "day_picker", day: @day, calendar_month: @calendar_month %>
+      <%= render "arrow", direction: "right", target: house_page_path(@house, day: @day.tomorrow) %>
+    <% else %>
+      <%= render "arrow", direction: "left", target: (house_page_path(@house, month: @month.prev_month) if @months_with_data.include?(@month.prev_month)) %>
+      <%= render "month_picker", month: @month, months_with_data: @months_with_data, calendar_year: @calendar_year %>
+      <%= render "arrow", direction: "right", target: (house_page_path(@house, month: @month.next_month) if @months_with_data.include?(@month.next_month)) %>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-8 mb-4 flex flex-wrap items-center justify-between gap-3">
+  <div class="flex items-center gap-3">
+    <% if @flat %>
+      <span class="icon-badge"><%= lucide_icon "door-open", class: "size-5" %></span>
+    <% else %>
+      <span class="icon-badge-primary"><%= lucide_icon "building-2", class: "size-5" %></span>
+    <% end %>
+
+    <div>
+      <h2 class="text-2xl font-bold"><%= @flat ? @flat.name : "House" %></h2>
+      <% if @day %>
+        <p class="font-medium text-brand"><%= l @day, format: "%A %-d %B %Y" %></p>
+      <% elsif @has_data %>
+        <p class="font-medium text-brand"><%= l @month, format: "%B %Y" %> <span class="font-normal text-muted">· <%= pluralize @days, "day" %></span></p>
+      <% end %>
+    </div>
+  </div>
+
+  <nav class="flex flex-wrap items-center gap-2">
+    <%= link_to house_page_path(@house, flat_id: nil, per_flat: nil),
+          class: @flat ? "pill" : "pill pill-active", data: { turbo_action: "replace" } do %>
+      <%= lucide_icon "building-2", class: "size-4" %> House
+    <% end %>
+
+    <span class="mx-1 h-6 w-px bg-line"></span>
+
+    <% @house.consumers.each do |flat| %>
+      <%= link_to house_page_path(@house, flat_id: flat.id, per_flat: nil),
+            class: flat == @flat ? "pill pill-active-secondary" : "pill", data: { turbo_action: "replace" } do %>
+        <%= lucide_icon "door-open", class: "hidden size-4 sm:block" %> <%= flat.name %>
+      <% end %>
+    <% end %>
+  </nav>
+</div>
+
+<% if @has_data %>
+  <div class="card">
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h2 class="flex items-center gap-2">
+        <%= lucide_icon "chart-column", class: "size-5 text-brand" %> Consumption per <%= @day ? "quarter-hour" : "day" %> (kWh)
+      </h2>
+
+      <% unless @flat %>
+        <nav class="inline-flex gap-1 rounded-full bg-brand-light p-1">
+          <%= link_to "Solar / grid", house_page_path(@house, per_flat: nil),
+                class: @per_flat ? "toggle" : "toggle toggle-active", data: { turbo_action: "replace" } %>
+          <%= link_to "Per flat", house_page_path(@house, per_flat: 1),
+                class: @per_flat ? "toggle toggle-active" : "toggle", data: { turbo_action: "replace" } %>
+        </nav>
+      <% end %>
+    </div>
+
+    <%= tag.div class: "relative h-64", data: { controller: "chart", chart_data_value: chart_data(@house_or_flat, @period, @day.present?, @per_flat) } %>
+  </div>
+
+  <div class="mt-6">
+    <%= render "summary_cards", house_or_flat: @house_or_flat, period: @period, days: @days, daily: @day.present? %>
+  </div>
+
+  <% unless @flat %>
+    <div class="card mt-6">
+      <h2 class="mb-2 flex items-center gap-2">
+        <%= lucide_icon "users", class: "size-5 text-brand" %> Flats
+      </h2>
+
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Flat</th>
+              <th class="text-right">Solar (kWh)</th>
+              <th class="text-right">Grid (kWh)</th>
+              <th class="text-right">Solar per day (kWh)</th>
+              <th class="text-right">Share of house solar</th>
+              <th class="w-40">Solar share</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @house.consumers.each do |flat| %>
+              <%= render "flat_row", name: flat.name, consumer: flat, house: @house, period: @period, days: @days %>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <%= render "flat_row", name: "House", consumer: @house, house: @house, period: @period, days: @days %>
+          </tfoot>
+        </table>
+      </div>
+    </div>
   <% end %>
-</ul>
-
-<%= link_to "Back", root_path %>
+<% else %>
+  <%= render "no_data" %>
+<% end %>
