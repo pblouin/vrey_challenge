@@ -4,6 +4,5 @@ class Measurement < ApplicationRecord
   validates :end_date, presence: true
   validates :value_kwh, presence: true
 
-  scope :metering_for, ->(consumers) { where(location_id: consumers.map(&:metering_location_id)) }
-  scope :market_for, ->(consumers) { where(location_id: consumers.map(&:market_location_id)) }
+  scope :between, ->(period) { where(start_date: period.first.beginning_of_day..period.last.end_of_day) }
 end
