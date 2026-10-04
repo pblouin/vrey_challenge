@@ -8,7 +8,7 @@ class CreateConsumers < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    
+
     add_index :consumers, :market_location_id, unique: true
     add_index :consumers, :metering_location_id, unique: true
   end
