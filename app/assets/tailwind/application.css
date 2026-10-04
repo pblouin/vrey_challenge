@@ -11,6 +11,7 @@
   --color-ink: #272f40;         /* text */
   --color-muted: #8a7a78;       /* secondary text */
   --color-line: #e2e8f0;        /* borders */
+  --color-grid: #2a78d6;        /* grid electricity, paired with brand for solar */
 
   --radius-card: 1rem;
   --shadow-card: 0 8px 25px -5px rgb(242 82 68 / 0.1);
@@ -28,15 +29,26 @@
   .card { @apply rounded-card border border-line bg-white p-6 shadow-card; }
   .card-link { @apply block rounded-card border border-line bg-white p-6 text-ink shadow-card transition hover:-translate-y-0.5 hover:text-ink hover:shadow-hover; }
 
+  .icon-badge { @apply rounded-full bg-brand-light p-3 text-brand; }
+  .icon-badge-primary { @apply rounded-full bg-brand p-3 text-white; }
+
+  .pill { @apply inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-brand hover:text-brand; }
+  .pill-active { @apply border-brand bg-brand text-white hover:text-white; }
+  .pill-active-secondary { @apply border-brand bg-brand-light text-brand; }
+
+  .toggle { @apply rounded-full px-4 py-1.5 text-sm font-medium text-muted transition-colors duration-200 hover:text-ink; }
+  .toggle-active { @apply bg-white text-ink shadow-sm; }
+
   .btn { @apply inline-block rounded-lg bg-brand px-4 py-2 font-medium text-white hover:bg-brand-dark hover:text-white; }
 
   .stat-label { @apply text-sm text-muted; }
   .stat-value { @apply text-2xl font-semibold; }
 
   .table { @apply w-full text-left; }
-  .table th { @apply border-b border-line py-3 text-sm font-medium text-muted; }
-  .table td { @apply border-b border-line py-3; }
+  .table th { @apply border-b border-line px-3 py-3 first:pl-0 last:pr-0 text-sm font-medium text-muted; }
+  .table td { @apply border-b border-line px-3 py-3 first:pl-0 last:pr-0; }
   .table tfoot td { @apply border-0 font-semibold; }
 
   .gradient-brand { @apply bg-linear-to-br from-brand to-accent text-white; }
+  .gradient-grid { @apply bg-linear-to-br from-grid to-sky-400 text-white; }
 }
