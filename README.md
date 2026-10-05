@@ -55,14 +55,15 @@ live at https://vrey-challenge.onrender.com
 Render or Heroku work well for a small team: no servers to manage, deploy by pushing the code.
 With the free plan, the first visit might take about a minute. The free database expires after 30 days.
 
-**Monitoring**
-- Render calls `/up` to check that the app is running. A deploy that fails this check is not put live.
+**Monitoring / Logging**
+- Render calls `/up` to check that the app is running.
 - CPU and memory in the "Metrics" tab on Render.
+- Rails logs to STDOUT, visible in the "Logs" tab on Render.
 
 **What I would add**
 - Use an error tracker like Sentry, to be alerted when something breaks.
 - Nightly import with a Render cron job, with an alert if failing.
-- A paid plan, so the app doesn't sleep.
+- A paid plan, so the app does not sleep.
 
 ## Important code
 
