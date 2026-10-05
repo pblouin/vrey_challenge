@@ -7,6 +7,19 @@ module HousesHelper
     house_path(house, current.merge(changes))
   end
 
+  def time_frame_label(dates, month)
+    first_date = dates.first
+    last_date = dates.last
+
+    if first_date == month.beginning_of_month && last_date == month.end_of_month
+      l(month, format: "%B %Y")
+    elsif first_date == last_date
+      l(first_date, format: "%-d %B %Y")
+    else
+      "#{first_date.day} – #{l(last_date, format: "%-d %B %Y")}"
+    end
+  end
+
   def percentage(part, whole)
     whole.zero? ? 0 : part / whole * 100
   end
