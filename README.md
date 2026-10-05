@@ -27,7 +27,7 @@ bin/dev
 Interface at http://localhost:3000
 
 `db:setup` also runs the demo seed:
-3 houses, 8 flats, and imports last month from the API. The API is slow, so this takes about a minute.
+3 houses, 8 flats, and imports the last three 3 months from the API. The API is slow, so this takes about a minute.
 
 ## Importing data
 

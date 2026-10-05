@@ -1,6 +1,5 @@
-Measurement.delete_all
-Consumer.delete_all
-House.delete_all
+# Only seed an empty database, so a deploy never erases imported data
+return if House.exists?
 
 kopenhagener = House.create!(name: "Kopenhagener Str. 1")
 Consumer.create!(house: kopenhagener, name: "Flat 1", market_location_id: "5123456789", metering_location_id: "DE0001234567890000000000000000012")
@@ -16,6 +15,6 @@ Consumer.create!(house: stargarder, name: "Flat 1", market_location_id: "5123456
 Consumer.create!(house: stargarder, name: "Flat 2", market_location_id: "5123456795", metering_location_id: "DE0001234567890000000000000000018")
 Consumer.create!(house: stargarder, name: "Flat 3", market_location_id: "5123456796", metering_location_id: "DE0001234567890000000000000000019")
 
-# Using last month for seed to have a whole month
-last_month = Date.current.prev_month
-MeasurementImport.call(last_month.beginning_of_month..last_month.end_of_month)
+# Import the last months: 3 previous months + current month until today
+first_day = Date.current.prev_month(3).beginning_of_month
+MeasurementImport.call(first_day..Date.current)
